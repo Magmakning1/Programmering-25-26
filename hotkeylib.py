@@ -8,7 +8,7 @@ __all__ = ['cmd_hotkey', 'program_hotkey', 'end_hotkey_list']
 def _require_root():
     if os.geteuid() != 0:
         print("[ERROR] This program needs root privileges.")
-        sys.exit(1)
+        sys.exit(0)
     else:
         print("[INFO] Running as root.")
 
