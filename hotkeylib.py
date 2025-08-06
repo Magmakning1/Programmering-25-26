@@ -28,6 +28,14 @@ class program_hotkey:
         keyboard.add_hotkey(str(key),lambda: subprocess.Popen(["sudo", "-u", "#1000", str(program)]))
         print("program",program,"bound to",key)
 
+class pyfunc_hotkey:
+    def __init__(self,key,function):
+        _require_root()
+        self.key = key
+        self.function = function
+        keyboard.add_hotkey(str(key),function)
+        print("function",function,"bound to",key)
+
 def end_hotkey_list():
     print("Hotkey list running until esc pressed")
     keyboard.wait("esc")
