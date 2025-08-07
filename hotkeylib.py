@@ -2,15 +2,19 @@ import os
 import keyboard
 import subprocess
 import sys
+import platform
 
 __all__ = ['cmd_hotkey', 'program_hotkey', 'end_hotkey_list']
 
 def _require_root():
-    if os.geteuid() != 0:
-        print("[ERROR] This program needs root privileges.")
-        sys.exit(0)
+    if platform.system() in ['Linux', 'Darwin']:
+        if os.geteuid() != 0:
+            print("[ERROR] This program needs root privileges.")
+            sys.exit(0)
+        else:
+            print("[INFO] Running as root.")
     else:
-        print("[INFO] Running as root.")
+        print("[INFO] No root privileges required on this platform.")
 
 class cmd_hotkey:
     def __init__(self,key,command):
@@ -25,7 +29,10 @@ class program_hotkey:
         _require_root()
         self.key = key
         self.program = program
-        keyboard.add_hotkey(str(key),lambda: subprocess.Popen(["sudo", "-u", "#1000", str(program)]))
+        if platform.system() in ['Linux', 'Darwin']:
+             keyboard.add_hotkey(str(key),lambda: subprocess.Popen(["sudo", "-u", "#1000", str(program)]))
+        else:  
+            keyboard.add_hotkey(str(key),lambda: subprocess.Popen([str(program)],shell=True))
         print("program",program,"bound to",key)
 
 class pyfunc_hotkey:
