@@ -3,6 +3,7 @@ import keyboard
 import subprocess
 import sys
 import platform
+import time
 
 __all__ = ['cmd_hotkey', 'program_hotkey', 'end_hotkey_list']
 
@@ -46,6 +47,14 @@ class pyfunc_hotkey:
 def end_hotkey_list():
     print("Hotkey list running until esc pressed")
     keyboard.wait("esc")
+
+def wait(keyortime="time",wait_time=10,key="esc"):
+    if keyortime == "time":
+        time.sleep(int(wait_time))
+    elif keyortime == "key":
+        keyboard.wait(str(key))
+    else:
+        print("[ERROR]",keyortime,"not an accepted str for keyortime")
 
 if __name__ == "__main__":
     print("Hotkey list not meant to be run by itself. Please import to another file")
