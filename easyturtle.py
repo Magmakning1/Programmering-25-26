@@ -13,3 +13,12 @@ class Screen:
     
     def mainloop(self):
         self.screen.mainloop()
+
+    def getscreensize(self):
+        return self.screensize
+
+if __name__ == "__main__":
+    scr = Screen()
+    size = scr.getscreensize()
+    print(size)
+    scr.mainloop()
