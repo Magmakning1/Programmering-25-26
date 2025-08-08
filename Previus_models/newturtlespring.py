@@ -4,6 +4,7 @@ from random import randint
 import time
 import threading
 import hotkeylib
+import sys
 
 scr = Screen(screensize=[750,750])
 t1 = turtle.Turtle()
@@ -14,6 +15,8 @@ toggled = False
 running = True
 x = 0
 screensize = scr.getscreensize()
+
+cordlist =  []
 
 def toggle():
     global toggled
@@ -27,15 +30,16 @@ def increace():
     while True:
         if running and toggled:
             x += 1
-            time.sleep(0.5)
+            time.sleep(0.1)
         else:
             time.sleep(0)
 
 def cords():
-    global x
+    global x, cordlist
     while True:
         if running:
             print(round(t1.xcor(),0),round(t1.ycor(),0),(" "),x)
+            cordlist.append((round(t1.xcor(),0),round(t1.ycor(),0),(" "),x))
             time.sleep(0.5)
         else:
             pass
@@ -61,13 +65,23 @@ def setx0():
     x = abs(int(newx))
     running = True
 
+def end():
+    global running
+    running = False
+    hotkeylib.clear_hotkeys()
+    with open("coords.txt", "w") as file:
+        for x_val, y_val, *_ in cordlist:
+            file.write(f"{x_val}, {y_val}\n")
+    sys.exit(0)
+
 border()
 thread1 = threading.Thread(target=cords,daemon=True)
 thread2 = threading.Thread(target=increace,daemon=True)
 thread1.start()
 thread2.start()
-hotkey1 = hotkeylib.pyfunc_hotkey("delete",setx0)
-hotkey2 = hotkeylib.pyfunc_hotkey("home",toggle)
+hotkey1 = hotkeylib.pyfunc_hotkey("home",setx0)
+hotkey2 = hotkeylib.pyfunc_hotkey("Pgup",toggle)
+hotkey3 = hotkeylib.pyfunc_hotkey("delete",end)
 
 while True:
     if running:    
@@ -78,5 +92,7 @@ while True:
             t1.teleport(0,0)
             t1.clear()
             border()
+        if x >= 90:
+            x = 0
     else:
         pass
