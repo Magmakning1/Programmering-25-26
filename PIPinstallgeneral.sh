@@ -2,9 +2,6 @@
 
 # if on windows
 # venv\Scripts\activate
-
-#!/bin/sh
-
 os_name=$(uname)
 
 python -m venv venv
