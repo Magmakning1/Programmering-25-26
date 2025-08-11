@@ -11,3 +11,4 @@ else:
     python_bin = '.\\venv\\Scripts\\python.exe'
 
 subprocess.run([python_bin, '-m', 'pip', 'install', 'keyboard', 'tk', 'mouse', 'pyautogui'], check=True)
+sys.exit(0)
