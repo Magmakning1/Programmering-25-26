@@ -10,5 +10,6 @@ if platform.system() in ['Linux', 'Darwin']:
 else:
     python_bin = '.\\venv\\Scripts\\python.exe'
 
-subprocess.run([python_bin, '-m', 'pip', 'install', 'keyboard', 'tk', 'mouse', 'pyautogui'], check=True)
+subprocess.run([python_bin, '-m', 'pip', 'install', 'keyboard', 'tk', 'mouse', 'pyautogui','pillow'], check=True)
+
 sys.exit(0)
